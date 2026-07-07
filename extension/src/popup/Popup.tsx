@@ -3,6 +3,8 @@ import { sendMessage, type ScoreResponse } from "../shared/messaging";
 import ScoreCard from "./ScoreCard";
 import "./popup.css";
 
+const ICON_URL = chrome.runtime.getURL("public/icons/icon-32.png");
+
 interface PRInfo {
   owner: string;
   repo: string;
@@ -58,17 +60,31 @@ export default function Popup() {
   return (
     <div className="popup">
       <header className="popup-header">
-        <h1>PR Review Health Dashboard</h1>
-        {prInfo && (
-          <p className="popup-subtitle">
-            {prInfo.owner}/{prInfo.repo} #{prInfo.number}
-          </p>
-        )}
+        <img src={ICON_URL} alt="" width={22} height={22} />
+        <div>
+          <h1>PR Review Health Dashboard</h1>
+          {prInfo && (
+            <p className="popup-subtitle">
+              {prInfo.owner}/{prInfo.repo} <span className="popup-subtitle-pr">#{prInfo.number}</span>
+            </p>
+          )}
+        </div>
       </header>
 
-      {state.kind === "not-a-pr" && <p className="popup-empty">Open a GitHub pull request to see its risk score.</p>}
-      {state.kind === "loading" && <p className="popup-loading">Scoring…</p>}
-      {state.kind === "ready" && <ScoreCard response={state.response} onRescore={handleRescore} rescoring={rescoring} />}
+      <div className="popup-body">
+        {state.kind === "not-a-pr" && (
+          <p className="popup-empty">Open a GitHub pull request to see its risk score.</p>
+        )}
+        {state.kind === "loading" && (
+          <div className="popup-loading">
+            <span className="popup-spinner" />
+            Scoring…
+          </div>
+        )}
+        {state.kind === "ready" && (
+          <ScoreCard response={state.response} onRescore={handleRescore} rescoring={rescoring} />
+        )}
+      </div>
     </div>
   );
 }
