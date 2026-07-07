@@ -1,0 +1,38 @@
+[
+  {
+    "name": "tiny_clean_pr",
+    "facts": { "lines_changed": 20, "files_changed": 2, "days_open": 1, "touched_test_files": true },
+    "expected_level": "low",
+    "expected_points": 0
+  },
+  {
+    "name": "medium_diff_with_tests",
+    "facts": { "lines_changed": 200, "files_changed": 5, "days_open": 1, "touched_test_files": true },
+    "expected_level": "low",
+    "expected_points": 1
+  },
+  {
+    "name": "huge_diff_no_tests",
+    "facts": { "lines_changed": 650, "files_changed": 25, "days_open": 2, "touched_test_files": false },
+    "expected_level": "high",
+    "expected_points": 6
+  },
+  {
+    "name": "old_stale_pr",
+    "facts": { "lines_changed": 50, "files_changed": 3, "days_open": 10, "touched_test_files": true },
+    "expected_level": "medium",
+    "expected_points": 2
+  },
+  {
+    "name": "mixed_signals",
+    "facts": { "lines_changed": 300, "files_changed": 8, "days_open": 5, "touched_test_files": false },
+    "expected_level": "high",
+    "expected_points": 5
+  },
+  {
+    "name": "wide_blast_radius_only",
+    "facts": { "lines_changed": 100, "files_changed": 30, "days_open": 1, "touched_test_files": true },
+    "expected_level": "low",
+    "expected_points": 1
+  }
+]
