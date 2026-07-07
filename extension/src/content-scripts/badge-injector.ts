@@ -11,8 +11,27 @@ const LEVEL_STYLES: Record<ScoreLevel, { bg: string; fg: string; label: string }
 
 const NEUTRAL_STYLE = { bg: "#f6f8fa", fg: "#656d76" };
 
+function isVisible(el: Element): boolean {
+  return (el as HTMLElement).offsetParent !== null;
+}
+
+function isRealTitleHeading(el: Element): boolean {
+  if (el.closest('[role="dialog"]')) return false;
+  if (el.classList.contains("sr-only") || el.closest(".sr-only")) return false;
+  if (el.getAttribute("aria-hidden") === "true") return false;
+  return isVisible(el);
+}
+
 function findTitleAnchor(): Element | null {
-  return document.querySelector(".gh-header-title") ?? document.querySelector("h1");
+  const preferred = document.querySelector(".gh-header-title");
+  if (preferred && isRealTitleHeading(preferred)) return preferred;
+
+  const headings = Array.from(document.querySelectorAll("h1"));
+  return headings.find(isRealTitleHeading) ?? null;
+}
+
+function removeExistingBadges(): void {
+  document.querySelectorAll(`#${BADGE_ID}`).forEach((el) => el.remove());
 }
 
 export function hasBadge(): boolean {
@@ -20,7 +39,7 @@ export function hasBadge(): boolean {
 }
 
 export function renderBadge(response: ScoreResponse | undefined): void {
-  document.getElementById(BADGE_ID)?.remove();
+  removeExistingBadges();
 
   const anchor = findTitleAnchor();
   if (!anchor) return;
