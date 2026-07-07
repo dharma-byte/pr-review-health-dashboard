@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Scores GitHub pull requests for review risk before you merge.",
   "permissions": ["storage", "activeTab"],
-  "host_permissions": ["https://github.com/*"],
+  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
   "background": {
     "service_worker": "src/background/service-worker.ts",
     "type": "module"
