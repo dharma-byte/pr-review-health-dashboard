@@ -1,4 +1,5 @@
-import { sendMessage } from "../shared/messaging";
+import { hasBadge, renderBadge } from "./badge-injector";
+import { sendMessage, type ScoreResponse } from "../shared/messaging";
 
 interface PRInfo {
   owner: string;
@@ -13,26 +14,33 @@ function getPRInfoFromUrl(): PRInfo | null {
 }
 
 let lastSeenPR: string | null = null;
+let lastResponse: ScoreResponse | undefined;
 
 async function checkForPRChange() {
   const info = getPRInfoFromUrl();
 
   if (!info) {
     lastSeenPR = null;
+    lastResponse = undefined;
     return;
   }
 
   const key = `${info.owner}/${info.repo}#${info.number}`;
-  if (key === lastSeenPR) return;
+
+  if (key === lastSeenPR) {
+    // GitHub's PR pages re-render parts of the DOM without a navigation (e.g. switching
+    // tabs), which can wipe out our injected badge even though the viewed PR hasn't changed.
+    if (!hasBadge()) renderBadge(lastResponse);
+    return;
+  }
+
   lastSeenPR = key;
+  lastResponse = undefined;
+  renderBadge(undefined);
 
   const response = await sendMessage({ type: "PR_VIEWED", ...info });
-
-  if (response?.ok) {
-    console.log("[PR Review Health Dashboard] score:", response.result);
-  } else {
-    console.warn("[PR Review Health Dashboard] no score available:", response);
-  }
+  lastResponse = response;
+  renderBadge(response);
 }
 
 const observer = new MutationObserver(() => {
