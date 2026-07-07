@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -10,10 +12,38 @@ class PullRequestFacts(BaseModel):
     touched_test_files: bool
 
 
+class ScorePRRequest(PullRequestFacts):
+    """What the extension sends: scoring facts plus enough identity to store history."""
+
+    github_username: str
+    owner: str
+    repo: str
+    pr_number: int = Field(gt=0)
+
+
 class ScoreResult(BaseModel):
     level: str
     points: int
     reasons: list[str]
+
+
+class ScoreResponse(ScoreResult):
+    id: int
+    pr_number: int
+    scored_at: datetime
+
+
+class PRScoreHistoryItem(BaseModel):
+    id: int
+    pr_number: int
+    score_level: str
+    score_points: int
+    reasons: list[str]
+    scored_at: datetime
+    lines_changed: int
+    files_changed: int
+    days_open: int
+    touched_tests: bool
 
 
 class TokenRegisterRequest(BaseModel):
