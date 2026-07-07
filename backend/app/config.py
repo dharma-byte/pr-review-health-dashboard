@@ -8,11 +8,9 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg2://pr_dashboard:pr_dashboard@localhost:5432/pr_dashboard"
     token_encryption_key: str = ""
-    cors_origins: str = "chrome-extension://*"
-
-    @property
-    def cors_origin_list(self) -> list[str]:
-        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+    # Any installed Chrome extension is served from its own chrome-extension://<id> origin,
+    # so an exact-match allowlist can't work here — match the scheme via regex instead.
+    cors_allow_origin_regex: str = r"^chrome-extension://.*$"
 
 
 @lru_cache

@@ -1,0 +1,87 @@
+.options-page {
+  max-width: 480px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.options-page h1 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.options-subtitle {
+  color: var(--color-muted);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.options-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.options-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.options-field input {
+  font-weight: 400;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+.options-field input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+}
+
+.options-field small {
+  font-weight: 400;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.options-form button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.options-form button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.options-form button:disabled {
+  background: var(--color-border);
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.options-status {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+
+.options-status--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.options-status--error {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
