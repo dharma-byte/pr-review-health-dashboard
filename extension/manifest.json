@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "PR Review Health Dashboard",
+  "version": "0.1.0",
+  "description": "Scores GitHub pull requests for review risk before you merge.",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["https://github.com/*"],
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*/*/pull/*"],
+      "js": ["src/content-scripts/pr-detector.ts"]
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
+  "options_page": "src/options/index.html"
+}
