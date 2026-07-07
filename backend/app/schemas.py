@@ -14,3 +14,13 @@ class ScoreResult(BaseModel):
     level: str
     points: int
     reasons: list[str]
+
+
+class TokenRegisterRequest(BaseModel):
+    github_username: str
+    github_token: str = Field(min_length=1)
+
+
+class TokenStatusResponse(BaseModel):
+    github_username: str
+    connected: bool
